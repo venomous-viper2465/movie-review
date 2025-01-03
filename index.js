@@ -1,10 +1,13 @@
 const express = require("express");
 const app = express();
+app.use(express.json());
+
 const genres = [
   { id: 1, name: "action" },
   { id: 2, name: "mystery" },
   { id: 3, name: "sci-fi" },
 ];
+
 app.get("/movie/api/genres", (req, res) => {
   let categories = [];
   for (const x in genres) {
@@ -19,6 +22,15 @@ app.get("/movie/api/genres/:id", (req, res) => {
   if (!genre)
     return res.status(404).send("The specified resource could not be found");
 
+  res.send(genre);
+});
+
+app.post("/movie/api/genres", (req, res) => {
+  const genre = {
+    id: genres.length + 1,
+    name: req.body.name,
+  };
+  genres.push(genre);
   res.send(genre);
 });
 
